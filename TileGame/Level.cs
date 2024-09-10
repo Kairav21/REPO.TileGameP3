@@ -9,7 +9,7 @@ namespace TileGame
     public class Level
     {
         
-        private Tile[,] tiles;
+        private Tile[,] tiles; // 2D array of type Tile
         private int width;
         private int height;
         private HeroTile hero;
@@ -22,7 +22,7 @@ namespace TileGame
 
 
 
-        public enum TileType
+        public enum TileType  // enum
         {
             Empty,
             Wall,
@@ -30,7 +30,7 @@ namespace TileGame
             Exit
         }
 
-        public enum Direction
+        public enum Direction  //enums
         {
             Up = 0,
             Right = 1,
@@ -47,13 +47,13 @@ namespace TileGame
         }
 
 
-        public Level(int width, int height, HeroTile hero = null)
+        public Level(int width, int height, HeroTile hero = null) // Constructor that initializes the level 
         {
             this.width = width;
             this.height = height;
             tiles = new Tile[width, height];
 
-            InitialiseTiles();
+            InitialiseTiles(); // Initialize all tiles to EmptyTiles
 
             Position randomPosition = GetRandomEmptyPosition();
 
@@ -79,7 +79,7 @@ namespace TileGame
         }
 
    
-        public int Width
+        public int Width     // Properties to expose width and height
         {
             get { return width; }
         }
@@ -132,7 +132,7 @@ namespace TileGame
         }
 
 
-        private void InitialiseTiles()
+        private void InitialiseTiles() // Method to initialize all tiles in the level as EmptyTiles
         {
             for (int y = 0; y < height; y++)
             {
@@ -167,24 +167,8 @@ namespace TileGame
         public void SwopTiles( Tile tile1,   Tile tile2)
         {
 
-            //tiles[tile1.X, tile1.Y] = tile2;
-            //tiles[tile2.X, tile2.Y] = tile1;
-
-
-            //int tempX = tile1.X;
-            //int tempY = tile1.Y;           // logic not working
-            //tile1.X = tile2.X;
-            //tile1.Y = tile2.Y;
-            //tile2.X = tempX;
-            //tile2.Y = tempY;
-
-
-            //tiles[tile1.X, tile1.Y] = tile2;
-            //tiles[tile2.X, tile2.Y] = tile1;
-
-            //Position tempPostion = new Position(tile1.X, tile1.Y);         // works
-            //tile1.Position = tile2.Position;
-            //tile2.Position = tempPostion;
+           
+        
 
 
             Position tempPosition = tile1.Position;
@@ -205,7 +189,7 @@ namespace TileGame
 
 
 
-        public override string ToString()
+        public override string ToString()     // Override the ToString method to create a visual representation of the level
         {
             StringBuilder levelString = new StringBuilder();
             for (int y = 0; y < height; y++)

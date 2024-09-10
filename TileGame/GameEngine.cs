@@ -47,47 +47,7 @@ namespace TileGame
             currentLevel = level;
         }
 
-        //private bool MoveHero(Direction direction)
-        //{
-        // HeroTile hero = currentLevel.Hero;
-
-        // Tile targetTile = null;
-
-        // switch (direction)
-        // {
-        //     case Direction.Up:
-        //         targetTile = currentLevel.Hero.Vision[0];
-        //         break;
-
-        //     case Direction.Right:
-        //         targetTile = currentLevel.Hero.Vision[1];
-        //         break;
-        //     case Direction.Down:
-        //         targetTile = currentLevel.Hero.Vision[2];
-        //         break;
-        //     case Direction.Left:
-        //         targetTile = currentLevel.Hero.Vision[3];
-        //         break;
-        //     default:
-        //         return false;
-
-
-        // }
-
-
-
-        // if (!(targetTile is EmptyTile))
-        // {
-        //     return false;
-        // }
-        // else
-        // {
-        //     currentLevel.SwopTiles(hero, targetTile);
-        //     hero.UpdateVision(currentLevel);
-        //     return true;
-        // }
-
-        // testing
+      
         private bool MoveHero(Direction direction)
         {
 
@@ -152,25 +112,6 @@ namespace TileGame
 
 
 
-        //S
-
-
-        //if (currentLevel.Hero.Vision[(int)direction] is EmptyTile)
-        //{
-        //    currentLevel.SwopTiles(currentLevel.Hero.Vision[(int)direction], currentLevel.Hero);
-        //    currentLevel.Hero.UpdateVision(currentLevel);
-        //    return true;
-        //}
-        //else
-        //{
-        //    return false;
-        //}
-
-
-
-
-
-    //}
 
 
 

@@ -9,7 +9,7 @@ namespace TileGame
     public abstract class Tile
     {
       
-    private Position position;
+    private Position position;   // Private field of type Position
 
         public Position Position 
 
@@ -26,8 +26,8 @@ namespace TileGame
 
 
       
-        public Tile(Position position)
-    {
+        public Tile(Position position) // Constructor that accepts a Position object and assigns it to the position field
+        {
         this.position = position;
     }
 
