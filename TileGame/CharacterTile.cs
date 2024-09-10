@@ -9,10 +9,10 @@ namespace TileGame
     public abstract class CharacterTile : Tile
     {
         protected int hitPoints;
-        protected int maxHitPoints;
+        protected int maxHitPoints;   // Protected  ints
         protected int attackPower;
 
-        protected Tile[] vision;
+        protected Tile[] vision;  
 
 
 
