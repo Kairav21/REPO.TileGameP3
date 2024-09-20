@@ -25,7 +25,7 @@ namespace TileGame
             gameEngine = new GameEngine(10);
 
 
-            UpdateDisplay();
+            UpdateDisplay();          
 
              this.KeyPreview = true;
 

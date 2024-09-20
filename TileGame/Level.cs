@@ -59,7 +59,7 @@ namespace TileGame
 
 
 
-            if (hero == null)
+            if (hero == null)  // check if null
             {
                 this.hero = (HeroTile)CreateTile(TileType.Hero, randomPosition);
             }

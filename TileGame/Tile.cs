@@ -14,7 +14,7 @@ namespace TileGame
         public Position Position 
 
 
-        { get { return position; } 
+        { get { return position; }   // 
         
             set { position = value; }
         
