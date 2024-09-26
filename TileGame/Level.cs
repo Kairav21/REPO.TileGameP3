@@ -8,17 +8,36 @@ namespace TileGame
 {
     public class Level
     {
-        
+
         private Tile[,] tiles; // 2D array of type Tile
         private int width;
         private int height;
         private HeroTile hero;
         private ExitTile exitTile;
+        private PickupTile [] pickups;
+
+        // Store all enemies in this array
+        private EnemyTile[] enemies;                                    // PART 2 ADDED 2.3
+
+
+        //Property to expose the enemies array
+        public EnemyTile[] Enemies                                      // Part 2 added 2.3
+        {
+            get { return enemies; }
+        }
+
 
         public ExitTile ExitTile
         {
             get { return exitTile; }
         }
+
+        public PickupTile[] Pickups
+        {
+            get { return pickups; }
+        }
+
+    
 
 
 
@@ -27,7 +46,10 @@ namespace TileGame
             Empty,
             Wall,
             Hero,
-            Exit
+            Exit,
+            Enemy,
+            Pickup        // Part 2 updated 2.3
+
         }
 
         public enum Direction  //enums
@@ -47,17 +69,16 @@ namespace TileGame
         }
 
 
-        public Level(int width, int height, HeroTile hero = null) // Constructor that initializes the level 
+        public Level(int width, int height, int numberOfEnemies , int numPickups =1 , HeroTile hero = null) // Constructor that initializes the level  // Added int numEnemies PArt 2 /// made it 3
         {
             this.width = width;
             this.height = height;
             tiles = new Tile[width, height];
+            pickups = new PickupTile[numPickups];
 
             InitialiseTiles(); // Initialize all tiles to EmptyTiles
 
             Position randomPosition = GetRandomEmptyPosition();
-
-
 
             if (hero == null)  // check if null
             {
@@ -71,14 +92,44 @@ namespace TileGame
                 tiles[randomPosition.X, randomPosition.Y] = hero;
             }
 
-
+            // Place an ExitTile at a random empty position
             Position exitPostion = GetRandomEmptyPosition();
+
             exitTile =(ExitTile)CreateTile(TileType.Exit, exitPostion);
-          
+
+            // Initialize and place enemies
+            enemies = new EnemyTile[numberOfEnemies];
+
+            for (int i = 0; i < numberOfEnemies; i++)
+            {
+                Position enemyPosition = GetRandomEmptyPosition();
+                enemies[i] = (EnemyTile)CreateTile(TileType.Enemy, enemyPosition);
+            }
+            for (int i = 0; i < numPickups; i++)
+            {
+                Position pickupPosition = GetRandomEmptyPosition();
+                pickups[i] = (PickupTile)CreateTile(TileType.Pickup,pickupPosition);
+            }
+
+
+
+
+
 
         }
 
-   
+        public void UpdateVision()  //Part 2   Q 2.3
+        {
+            hero.UpdateVision(this);
+            foreach (EnemyTile enemy in enemies)                // Part 2
+            {
+                enemy.UpdateVision(this);
+            }
+        }
+
+
+
+
         public int Width     // Properties to expose width and height
         {
             get { return width; }
@@ -114,9 +165,16 @@ namespace TileGame
                 case TileType.Hero:
                     tile = new HeroTile(position);
                     break;
-                case TileType.Exit:
+                case TileType.Exit:                                 
                     tile = new ExitTile(position);
                     break;
+                case TileType.Enemy:
+                    tile = new GruntTile(position);  // Part 2 added 2.3
+                    break;
+                    case TileType.Pickup:
+                    tile = new HealthPickup(position);
+                    break;
+
 
 
             }

@@ -57,9 +57,9 @@ namespace TileGame
 
            
             vision[0] = level.Tiles[x, y - 1]; // Up
-            vision[1] = level.Tiles[x, y + 1]; // Down
-            vision[2] = level.Tiles[x - 1, y]; // Left
-            vision[3] = level.Tiles[x + 1, y]; // Right
+            vision[1] = level.Tiles[x + 1, y ]; // Down
+            vision[2] = level.Tiles[x, y+1]; // Left
+            vision[3] = level.Tiles[x - 1, y]; // Right
         }
 
         public void TakeDamage(int damage)
@@ -79,6 +79,15 @@ namespace TileGame
         public bool IsDead
         {
             get { return hitPoints <= 0; }
+        }
+
+        public void Heal(int health)
+        {
+            hitPoints += health;    
+            if (hitPoints >maxHitPoints) 
+            {
+                hitPoints = maxHitPoints;
+            }
         }
 
 

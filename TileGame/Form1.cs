@@ -28,6 +28,10 @@ namespace TileGame
             UpdateDisplay();          
 
              this.KeyPreview = true;
+           
+            
+            
+
 
 
 
@@ -37,178 +41,114 @@ namespace TileGame
         private void UpdateDisplay()
         {
             lblDisplay.Text = gameEngine.ToString();
+            lbltest.Text = gameEngine.HeroStats.ToString();
         }
 
 
 
 
 
-        //private void PlayerInput(object sender, KeyEventArgs e)
-
-
-        //{
-
-
-        //    //if (gameEngine.TriggerMovement(Direction.Up))
-        //    //{
-        //    //    UpdateDisplay();
-        //    //}
-        //    //if (gameEngine.TriggerMovement(Direction.Down))
-        //    //{
-        //    //    UpdateDisplay();
-        //    //}
-        //    //if (gameEngine.TriggerMovement(Direction.Left))
-        //    //{
-        //    //    UpdateDisplay();
-        //    //}
-        //    //if (gameEngine.TriggerMovement(Direction.Right))
-        //    //{
-        //    //    UpdateDisplay();
-        //    //}
-
-      
-
-
-        //    //  bool moveMade = false;
-        //    switch (e.KeyCode)
-        //    {
-        //        case Keys.W:
-        //            gameEngine.TriggerMovement(Direction.Up);
-
-        //            break;
-        //        case Keys.S:
-        //            gameEngine.TriggerMovement(Direction.Down);
-        //            break;
-        //        case Keys.A:
-        //            gameEngine.TriggerMovement(Direction.Left);
-        //            break;
-        //        case Keys.D:
-        //            gameEngine.TriggerMovement(Direction.Right);
-        //            break;
-
-
-        //    }
-        //    UpdateDisplay();
-        //}
-
-        //private void btnUp_Click(object sender, EventArgs e)
-        //{
-        //    gameEngine.TriggerMovement(Direction.Up);
-        //    UpdateDisplay();
-        //}
-
-        //private void btnDown_Click(object sender, EventArgs e)
-        //{
-        //    gameEngine.TriggerMovement(Direction.Down);
-        //    UpdateDisplay();
-
-        //}
-
-        //private void btnLeft_Click(object sender, EventArgs e)
-        //{
-        //    gameEngine.TriggerMovement(Direction.Left);
-        //    UpdateDisplay();
-        //}
-
-        //private void btnRight_Click(object sender, EventArgs e)
-        //{
-        //    gameEngine.TriggerMovement(Direction.Right);
-        //    UpdateDisplay();
-        //}
 
         private void InitializeComponent()
         {
             this.lblDisplay = new System.Windows.Forms.Label();
-            this.btnUp = new System.Windows.Forms.Button();
-            this.btnLeft = new System.Windows.Forms.Button();
-            this.btnRight = new System.Windows.Forms.Button();
-            this.btnDown = new System.Windows.Forms.Button();
+            this.lbltest = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblDisplay
             // 
-            this.lblDisplay.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDisplay.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblDisplay.Location = new System.Drawing.Point(27, 25);
             this.lblDisplay.Name = "lblDisplay";
-            this.lblDisplay.Size = new System.Drawing.Size(317, 321);
+            this.lblDisplay.Size = new System.Drawing.Size(511, 481);
             this.lblDisplay.TabIndex = 0;
             this.lblDisplay.Text = "label1";
             // 
-            // btnUp
+            // lbltest
             // 
-            this.btnUp.Location = new System.Drawing.Point(673, 99);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(75, 23);
-            this.btnUp.TabIndex = 1;
-            this.btnUp.Text = "Up";
-            this.btnUp.UseVisualStyleBackColor = true;
-            this.btnUp.Click += new System.EventHandler(this.btnUp_Click_1);
-            // 
-            // btnLeft
-            // 
-            this.btnLeft.Location = new System.Drawing.Point(583, 194);
-            this.btnLeft.Name = "btnLeft";
-            this.btnLeft.Size = new System.Drawing.Size(75, 23);
-            this.btnLeft.TabIndex = 2;
-            this.btnLeft.Text = "Left";
-            this.btnLeft.UseVisualStyleBackColor = true;
-            this.btnLeft.Click += new System.EventHandler(this.btnLeft_Click_1);
-            // 
-            // btnRight
-            // 
-            this.btnRight.Location = new System.Drawing.Point(777, 194);
-            this.btnRight.Name = "btnRight";
-            this.btnRight.Size = new System.Drawing.Size(75, 23);
-            this.btnRight.TabIndex = 3;
-            this.btnRight.Text = "Right";
-            this.btnRight.UseVisualStyleBackColor = true;
-            this.btnRight.Click += new System.EventHandler(this.btnRight_Click_1);
-            // 
-            // btnDown
-            // 
-            this.btnDown.Location = new System.Drawing.Point(673, 273);
-            this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(75, 23);
-            this.btnDown.TabIndex = 4;
-            this.btnDown.Text = "Down";
-            this.btnDown.UseVisualStyleBackColor = true;
-            this.btnDown.Click += new System.EventHandler(this.btnDown_Click_1);
+            this.lbltest.AutoSize = true;
+            this.lbltest.Location = new System.Drawing.Point(617, 190);
+            this.lbltest.Name = "lbltest";
+            this.lbltest.Size = new System.Drawing.Size(62, 13);
+            this.lbltest.TabIndex = 1;
+            this.lbltest.Text = "TESTINGG";
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(934, 534);
-            this.Controls.Add(this.btnDown);
-            this.Controls.Add(this.btnRight);
-            this.Controls.Add(this.btnLeft);
-            this.Controls.Add(this.btnUp);
+            this.ClientSize = new System.Drawing.Size(1085, 534);
+            this.Controls.Add(this.lbltest);
             this.Controls.Add(this.lblDisplay);
             this.Name = "Form1";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PlayerInput);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
-        private void btnUp_Click_1(object sender, EventArgs e)
-        {
-            gameEngine.TriggerMovement(Direction.Up);
-            UpdateDisplay();
-        }
+      
 
-        private void btnDown_Click_1(object sender, EventArgs e)
+        private void PlayerInput(object sender, KeyEventArgs e)
         {
-            gameEngine.TriggerMovement(Direction.Down);
-            UpdateDisplay();
-        }
+            switch(e.KeyCode) 
+            {
 
-        private void btnLeft_Click_1(object sender, EventArgs e)
-        {
-            gameEngine.TriggerMovement(Direction.Left);
-            UpdateDisplay();
-        }
+                case Keys.W:
+                    {
+                        gameEngine.TriggerMovement(Direction.Up);
+                        
+                    }
+                    break;
 
-        private void btnRight_Click_1(object sender, EventArgs e)
-        {
-            gameEngine.TriggerMovement(Direction.Right);
-            UpdateDisplay();
+
+                    case Keys.A: 
+                    {
+                        gameEngine.TriggerMovement(Direction.Left);
+
+                    }
+                    break;
+
+                    case Keys.S: 
+                    {
+
+                        gameEngine.TriggerMovement(Direction.Down);
+
+                    }
+                    break;
+
+
+                    case Keys.D:
+                    {
+                        gameEngine.TriggerMovement(Direction.Right);
+                    }
+                    break;
+
+                case Keys.Up:
+                    {
+                        gameEngine.TriggerAttack(Direction.Up);
+                    }
+                    break;
+                    case Keys.Down:
+                    {
+                        gameEngine.TriggerAttack(Direction.Down);
+                    }
+                    break;
+                    case Keys.Left: 
+                    {
+                        gameEngine.TriggerAttack(Direction.Left);
+                    }
+                    break;
+
+                    case Keys.Right: 
+                    {
+                        gameEngine.TriggerAttack(Direction.Right);
+                    }
+                    break;
+              
+
+
+
+            }
+            UpdateDisplay();    
         }
 
         //private void InitializeComponent()
