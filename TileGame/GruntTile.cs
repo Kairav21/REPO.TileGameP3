@@ -27,19 +27,7 @@ namespace TileGame
 
         public override bool GetMove(out Tile targetTile)
         {
-            //// Check for empty tiles in the vision array
-            //Tile[] emptyTiles = Array.FindAll(Vision, tile => tile is EmptyTile);
-
-            //if (emptyTiles.Length == 0)
-            //{
-            //    targetTile = null;
-            //    return false;
-            //}
-
-            //// Select a random empty tile
-            //Random random = new Random();
-            //targetTile = emptyTiles[random.Next(emptyTiles.Length)];
-            //return true;
+            
 
             Random random = new Random();
 
@@ -79,10 +67,6 @@ namespace TileGame
     }
 
 
-    //   -------------------------------------------------------------------------------------------------------------------------
-
-
-    // ---------------------------------------------------------------------------------------------------------------------------
 
    
 
