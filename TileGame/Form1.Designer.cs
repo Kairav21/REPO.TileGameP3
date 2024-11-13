@@ -38,6 +38,11 @@
         #endregion
 
         private System.Windows.Forms.Label lbltest;
+        private System.Windows.Forms.Label lblbuffs;
+        private System.Windows.Forms.Button btnSaveGame;
+        private System.Windows.Forms.Button btnLoadGame;
+        private System.Windows.Forms.Label lblkeys;
+        private System.Windows.Forms.Label label1;
     }
 }
 

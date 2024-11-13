@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TileGame
 {
+ 
     public class HeroTile : CharacterTile
     {
         
@@ -21,5 +22,6 @@ namespace TileGame
     {
         get { return IsDead ? 'X' : '▼'; }
     }
+
     }
 }

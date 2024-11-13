@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace TileGame
 {
+   
     public abstract class Tile
     {
       
     private Position position;   // Private field of type Position
 
+
+     
         public Position Position 
 
 

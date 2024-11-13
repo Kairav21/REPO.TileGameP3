@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TileGame
 {
+    
     public abstract class PickupTile : Tile
     {
         public PickupTile(Position position): base(position)

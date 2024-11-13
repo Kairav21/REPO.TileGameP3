@@ -8,11 +8,13 @@ namespace TileGame
 {
     //Q2.2 Part 2
     // 1st
+
+ 
     public class GruntTile : EnemyTile
     {
 
         // Constructor
-        public GruntTile(Position position) : base(position, hitPoints: 10, attackPower: 1) // hit points = 10, attack power = 1
+        public GruntTile(Position position, Level level) : base(position, level, 10,  1) // hit points = 10, attack power = 1  // Added level in contructor and base PART 3 Q2.1
         {
         }
 
@@ -21,10 +23,12 @@ namespace TileGame
         {
             get
             {
-                return IsDead ? 'W' : 'X';
+                return IsDead ? 'x' : 'Ϫ';
             }
         }
 
+
+        // Implementation for getmove
         public override bool GetMove(out Tile targetTile)
         {
             

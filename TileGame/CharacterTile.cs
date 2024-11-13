@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace TileGame
 {
+
+    
     public abstract class CharacterTile : Tile
     {
         protected int hitPoints;
         protected int maxHitPoints;   // Protected  ints
         protected int attackPower;
+        protected int doubleDamageCount; // part 3 added
 
         protected Tile[] vision;  
 
@@ -73,7 +76,15 @@ namespace TileGame
 
         public void Attack(CharacterTile target)
         {
-            target.TakeDamage(this.attackPower);
+           
+            
+                int damage = attackPower;
+            if (doubleDamageCount > 0)
+            {
+                damage *= 2;
+                doubleDamageCount--;
+            }
+            target.TakeDamage(damage);
         }
 
         public bool IsDead
@@ -90,7 +101,18 @@ namespace TileGame
             }
         }
 
+        public void SetDoubleDamage(int count)
+        {
+            doubleDamageCount += count;
+        }
 
-
+        public int DoubleDamageCount
+        {
+            get {return doubleDamageCount;}
+            set { doubleDamageCount = value; }
+        }
+        
     }
+     
+
 }

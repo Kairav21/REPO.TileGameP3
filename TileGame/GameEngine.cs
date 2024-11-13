@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -8,6 +11,7 @@ using static TileGame.Level;
 
 namespace TileGame
 {
+   
     public class GameEngine
     {
      
@@ -34,7 +38,18 @@ namespace TileGame
         }
 
 
-      
+        public int LevelNumber
+        {
+            get { return levelnumber; }
+            set { levelnumber = value; }
+        }
+
+        public int NumberOfLevels
+        {
+            get { return numberOfLevels; }
+            set { numberOfLevels = value; }
+        }
+
 
 
         public GameEngine(int numberOfLevels,int numberofEnemies=3) // made 3
@@ -100,16 +115,23 @@ namespace TileGame
 
 
 
-            if (targetTile is ExitTile && levelnumber == numberOfLevels)
+            if (targetTile is ExitTile && levelnumber == numberOfLevels && currentLevel.Exit.Islocked==false)
             {
                 gameState = GameState.Complete;
                 return false;
             }
-            else if ( targetTile is ExitTile && levelnumber < numberOfLevels)
+          else if ( targetTile is ExitTile && levelnumber < numberOfLevels && currentLevel.Exit.Islocked == false)
             {
                 NextLevel();
                 return true;    
             }
+
+
+          
+
+
+
+
             else if (targetTile is PickupTile)
             {
                 foreach (PickupTile pickup in currentLevel.Pickups)
@@ -123,7 +145,11 @@ namespace TileGame
                         return true;
                     }
                 }
+
+
             }
+
+            
 
            else  if (targetTile is EmptyTile)
             {
@@ -132,6 +158,7 @@ namespace TileGame
                 currentLevel.UpdateVision(); // added 2.4 p2
                 return true;
             }
+            
 
             return false;
 
@@ -183,12 +210,24 @@ namespace TileGame
                 {
                     gameState = GameState.GameOver; 
                 }
+                currentLevel.UpdateExit();
+               
             }
+
+            
 
             
 
 
         }
+
+        public Level Currentlevel
+        {
+            get { return currentLevel; }
+            set { currentLevel = value; }
+        }
+
+      
 
         public string HeroStats
         {
@@ -265,7 +304,9 @@ namespace TileGame
                 }
             }
             }
-        
+
+   
+
 
 
         public override string ToString()
@@ -288,5 +329,211 @@ namespace TileGame
             }
             
         }
+
+      
+
+
+        public void SaveGame(int numLevels, int levelNum, string level, Tile[,] tiles, HeroTile heroTile, EnemyTile[] enemyTiles)
+        {
+            const char DELIMITER = ',';
+            const string FILE_NAME = "SaveFile.txt";
+
+            
+            FileStream stream = new FileStream(FILE_NAME, FileMode.Create, FileAccess.Write);
+          
+            StreamWriter writer = new StreamWriter(stream);
+
+          
+            writer.WriteLine(
+                numLevels.ToString() + DELIMITER +
+                levelNum.ToString() + DELIMITER +
+                tiles.GetLength(0).ToString() + DELIMITER +
+                tiles.GetLength(1).ToString() + DELIMITER +
+                heroTile.HitPoints + DELIMITER +
+                heroTile.DoubleDamageCount
+                );
+
+            foreach (EnemyTile enemyTile in enemyTiles)
+            {
+                if (enemyTile is GruntTile)
+                {
+                    writer.Write($"Grunt:");
+                }
+                if (enemyTile is WarlockTile)
+                {
+                    writer.Write($"Warlock:");
+                }
+                if (enemyTile is TyrantTile)
+                {
+                    writer.Write($"Tyrant:");
+                }
+                writer.Write(DELIMITER + enemyTile.HitPoints.ToString() + DELIMITER +
+                        enemyTile.X.ToString() + DELIMITER +
+                        enemyTile.Y.ToString() + DELIMITER);
+            }
+
+            writer.Write("\n" + level);
+
+            writer.Close(); 
+            stream.Close(); 
+        }
+
+
+
+        public void LoadGame()
+        {
+         
+            FileStream stream = new FileStream("SaveFile.txt", FileMode.Open, FileAccess.Read);
+   
+            StreamReader reader = new StreamReader(stream);
+
+            string recordIn;
+            string[] fields;
+
+       
+            HeroTile loadedHero = null;
+            ExitTile loadedExitTile = null;
+            List<EnemyTile> enemyList = new List<EnemyTile>();
+            List<PickupTile> pickupList = new List<PickupTile>();
+
+            recordIn = reader.ReadLine();
+            fields = recordIn.Split(',');
+
+       
+            numberOfLevels = Int32.Parse(fields[0]);
+            levelnumber = Int32.Parse(fields[1]);
+            Tile[,] loadedTiles = new Tile[Int32.Parse(fields[2]), Int32.Parse(fields[3])];
+
+          
+            int hitpoints = Int32.Parse(fields[4]);
+            int doubleDamageCount = Int32.Parse(fields[5]);
+
+    
+            recordIn = reader.ReadLine();
+            string[] enemyStats = recordIn.Split(',');
+
+            int y = 0;
+            int x = 0;
+            recordIn = reader.ReadLine();
+            while (recordIn != null)
+            {
+           
+                foreach (char c in recordIn) 
+                {
+                    Tile tile = null;
+                    if (c == '█')
+                    {
+                        tile = new WallTile(new Position(x, y));
+                    }
+                    else if (c == '.')
+                    {
+                        tile = new EmptyTile(new Position(x, y));
+                    }
+                    else if (c == 'Ϫ')
+                    {
+                        tile = new GruntTile(new Position(x, y), this.currentLevel);
+                        enemyList.Add((EnemyTile)tile);
+                    }
+                    else if (c == '§')
+                    {
+                        tile = new TyrantTile(new Position(x, y), this.currentLevel);
+                        enemyList.Add((EnemyTile)tile);
+                    }
+                    else if (c == 'ᐂ')
+                    {
+                        tile = new WarlockTile(new Position(x, y), this.currentLevel);
+                        enemyList.Add((EnemyTile)tile);
+                    }
+                    else if (c == 'x')
+                    {
+                        GruntTile grunt = new GruntTile(new Position(x, y), this.currentLevel);
+                        grunt.HitPoints = 0;
+                        tile = grunt;
+                    }
+                    else if (c == '▼')
+                    {
+                        tile = new HeroTile(new Position(x, y));
+                        loadedHero = (HeroTile)tile;
+                    }
+                    else if (c == '▓')
+                    {
+                        tile = new ExitTile(new Position(x, y));
+                        loadedExitTile = (ExitTile)tile;
+                    }
+                    else if (c == '▒')
+                    {
+                        ExitTile exit = new ExitTile(new Position(x, y));
+                        exit.Islocked = false;
+                        tile = exit;
+                        loadedExitTile = exit;
+                    }
+                    else if (c == '+')
+                    {
+                        tile = new HealthPickup(new Position(x, y));
+                        pickupList.Add((PickupTile)tile);
+                    }
+                    else if (c == '*')
+                    {
+                        tile = new AttackBuffPickupTile(new Position(x, y));
+                        pickupList.Add((PickupTile)tile);
+                    }
+                    loadedTiles[x, y] = tile;
+                    x++;
+                }
+                recordIn = reader.ReadLine();
+                x = 0;
+                y++;
+            }
+
+          
+            reader.Close();
+            stream.Close();
+
+            Level loadedLevel = new Level(loadedTiles.GetLength(0), loadedTiles.GetLength(1), levelnumber, 1);
+            loadedLevel.Tiles = loadedTiles;
+            loadedLevel.Enemies = enemyList.ToArray();
+            loadedLevel.Pickups = pickupList.ToArray();
+            loadedLevel.Exit = loadedExitTile;
+            loadedHero.HitPoints = hitpoints;
+            loadedHero.DoubleDamageCount = doubleDamageCount;
+            loadedLevel.Hero = loadedHero;
+
+            for (int i = 0; i < loadedLevel.Enemies.GetLength(0); i++)
+            {
+                if (loadedLevel.Enemies[i] is GruntTile && enemyStats[i] == "Grunt:" &&
+                    loadedLevel.Enemies[i].X == int.Parse(enemyStats[i + 2]) &&
+                    loadedLevel.Enemies[i].Y == int.Parse(enemyStats[i + 3]))
+                {
+                    loadedLevel.Enemies[i].HitPoints = int.Parse(enemyStats[i + 1]);
+                }
+                else if (loadedLevel.Enemies[i] is WarlockTile && enemyStats[i] == "Warlock:" &&
+                         loadedLevel.Enemies[i].X == int.Parse(enemyStats[i + 2]) &&
+                         loadedLevel.Enemies[i].Y == int.Parse(enemyStats[i + 3]))
+                {
+                    loadedLevel.Enemies[i].HitPoints = int.Parse(enemyStats[i + 1]);
+                }
+                else if (loadedLevel.Enemies[i] is TyrantTile && enemyStats[i] == "Tyrant:" &&
+                         loadedLevel.Enemies[i].X == int.Parse(enemyStats[i + 2]) &&
+                         loadedLevel.Enemies[i].Y == int.Parse(enemyStats[i + 3]))
+                {
+                    loadedLevel.Enemies[i].HitPoints = int.Parse(enemyStats[i + 1]);
+                }
+            }
+
+          
+            this.currentLevel = loadedLevel;
+        }
+
+
+
+
+
+
+
+
+
+
     }
+
+
 }
