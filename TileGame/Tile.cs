@@ -12,8 +12,8 @@ namespace TileGame
       
     private Position position;   // Private field of type Position
 
+        // Touch ups
 
-     
         public Position Position 
 
 
